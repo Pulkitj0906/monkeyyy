@@ -1,13 +1,16 @@
+'use client'
 import Image from 'next/image'
 import Topbar from './components/Topbar'
 import Bottombar from './components/Bottombar'
 import Body from './components/Body'
 import ControlBar from './components/Controlbar'
-
-
+import Test from './hooks/useTest'
+import LanguageModal from './components/LanguageModal'
 
 export default function Home() {
+  const TestCtrl = Test();
   return (
+    <>
     <div className="flex justify-center items-center">
       <div
         className="
@@ -26,8 +29,11 @@ export default function Home() {
         <div className="flex-grow w-full">
           <Body/>
         </div>
-        <Bottombar />
+        {!TestCtrl.hasStarted && <Bottombar />}
+        
       </div>
     </div>
+      {/* <LanguageModal/> */}
+    </>
   )
 }

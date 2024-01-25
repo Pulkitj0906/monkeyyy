@@ -79,8 +79,10 @@ const Bottombar = () => {
   return (
     <div className="w-full flex flex-row justify-between pb-2 md:pb-6 xl:p-2">
       <div className="flex flex-wrap items-center w-2/3 md:w-3/5 lg:w-4/5">
-        {items.map((item) => (
-          <div className="w-20">
+        {items.map((item,idx) => (
+          <div
+            key={idx}
+           className="w-20">
             <Item
               key={item.href}
               href={item.href}

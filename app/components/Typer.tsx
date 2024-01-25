@@ -2,13 +2,19 @@
 import React, { useEffect, useState } from 'react';
 import { randomWord } from './useWords';
 import '@/app/styles/caret.css'
+import { count } from 'console';
+import Test from '../hooks/useTest';
 
 
 const Typer = () => {
-    const [input, setInput] = useState('');
-    const [correctWord, setCorrectWord] = useState<string>('');
+    const TestCtrl = Test();
+    const regex = new RegExp('[a-zA-Z\\b]')
+    let [input, setInput] = useState('');
+    let [correctWord, setCorrectWord] = useState<string>('');
     const [colors, setColors] = useState(Array(correctWord.length).fill('text-text-color'));
     let [i, setI] = useState(0);
+    let [wrongWordLimit, setWrongWordLimit] = useState(0);
+    const allowedInput = [8, 32]
     useEffect(() => {
         randomWord().then((d: string) => {
             setCorrectWord(d);
@@ -16,49 +22,109 @@ const Typer = () => {
             setI(0);
         });
     }, []);
-    const handleChange2 = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        let key = e.target.value;
-        let updatedColors = [...colors]; // Create a copy of colors array
-
-        if (!(key[i] === ' ' && correctWord[i - 1] === ' ')) {
-            for (; i < key.length; i++) {
-                // space condition
-                if (correctWord[i] !== ' ' && key[i] === ' ') {
-                    while (i < correctWord.length) {
-                        if (correctWord[i] === ' ') {
-                            break;
-                        }
-                        key += ' ';
-                        i++;
-                    }
-                }
-                else if (correctWord[i] === ' ' && key !== ' ') {
-                    setCorrectWord(correctWord.substring(0, i) + key[i] + correctWord.substring(i));
-                }
-
-                updatedColors[i] = key[i] === correctWord[i] ? 'text-this-white' : 'text-error';
-            }
-            setInput(key);
-            setColors(updatedColors);
-            setI(i); // Update the state variable
+    const handleChange = () => {
+        if(!TestCtrl.hasStarted) {
+            TestCtrl.onStart();
         }
 
-    };
+    }
+    // const handleChange2 = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    //     let key = e.target.value;
+    //     console.log(key);
+    //     let updatedColors = [...colors]; // Create a copy of colors array
+        
+    //     // if(backKey === 'Backspace') {
+    //     //     console.log('hi')
+    //     // }
+    //     if (!(key[i] === ' ' && correctWord[i - 1] === ' ')) {
+    //         for (; i < key.length; i++) {
+    //             // space condition
+    //             console.log(i);
+    //             if (correctWord[i] !== ' ' && key[i] === ' ') {
+    //                 while (i < correctWord.length) {
+    //                     if (correctWord[i] === ' ') {
+    //                         break;
+    //                     }
+    //                     key += ' ';
+    //                     i++;
+    //                 }
+    //             }
+    //             else if (correctWord[i] === ' ' && key[i] !== ' ') {
+    //                 console.log('limil' + wrongWordLimit);
+    //                 if(wrongWordLimit >= 5) {
+    //                     setWrongWordLimit(5);
+    //                     continue;
+    //                 }
+    //                 setCorrectWord(correctWord.substring(0, i) + key[i] + correctWord.substring(i));
+    //                 updatedColors = [...updatedColors, 'text-text-color']
+    //                 setWrongWordLimit(++wrongWordLimit);
+    //             }
+
+    //             updatedColors[i] = key[i] === correctWord[i] ? 'text-this-white' : 'text-error';
+    //         }
+    //             setInput(key);
+    //             setColors(updatedColors);
+    //             setI(i); // Update the state variable
+    //     }
+    // };
+    const handleChange3 = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        let keyPressed = e.key;
+        
+        if((!allowedInput.includes(e.keyCode) && e.keyCode < 65) || e.keyCode > 90) {
+            return;
+        }
+        
+        if(keyPressed === ' ' && correctWord[i-1] === ' ') {
+            return;
+        }
+        else if(keyPressed === 'Backspace') {
+            colors[i-1] = 'text-text-color'
+            if(correctWord[i-1] === ' ') 
+                return
+            
+            i-=2;
+            input = input.substring(0, input.length-1);
+            setInput(input)
+        }
+        else if(keyPressed === ' ' && correctWord[i] !== ' ') {
+            while (i < correctWord.length) {
+                if (correctWord[i] === ' ') {
+                    break;
+                }
+                input += ' ';
+                i++;
+            }
+        }
+        else if(keyPressed !== ' ' && correctWord[i] === ' ') {
+            setWrongWordLimit(wrongWordLimit+1);
+            if(wrongWordLimit >= 5)
+                return;
+            setCorrectWord(correctWord.substring(0,i) + keyPressed + correctWord.substring(i));
+            colors.push('text-text-color')
+        }
+        setI(i+1);
+        setColors(colors);
+        if(keyPressed !== 'Backspace') {
+            setInput(input+keyPressed);
+            colors[i] = keyPressed === correctWord[i] ? 'text-this-white' : 'text-error';
+        }
+    }
     return (
         <>
             <div className="relative">
-                <p className=" text-2xl">
+                <div className=" text-2xl">
                     {correctWord.split('').map((letter, index) => (
                         <div key={index} className={`inline z-10 ${colors[index]}`}>
                             {letter}
                         </div>
                     ))}
-                </p>
+                </div>
                 <textarea 
                     spellCheck='false'
                     autoFocus
                     value={input}
-                    onChange={handleChange2}
+                    onChange={handleChange}
+                    onKeyDownCapture={handleChange3}
                     className="
                         absolute
                         top-0
@@ -71,9 +137,9 @@ const Typer = () => {
                         resize-none
                         custom-caret-color
                         caret-yellow-300
-                        
             " />
             </div>
+            {TestCtrl.hasStarted && <p>Hello</p>}
         </>
     )
 };
