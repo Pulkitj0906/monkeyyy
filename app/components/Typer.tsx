@@ -4,6 +4,7 @@ import { randomWord } from './useWords';
 import '@/app/styles/caret.css'
 import { count } from 'console';
 import Test from '../hooks/useTest';
+import useWordLimit from '../hooks/useWordsLimit';
 
 
 const Typer = () => {
@@ -15,13 +16,15 @@ const Typer = () => {
     let [i, setI] = useState(0);
     let [wrongWordLimit, setWrongWordLimit] = useState(0);
     const allowedInput = [8, 32]
+    const WordLimit=useWordLimit()
     useEffect(() => {
-        randomWord().then((d: string) => {
+        const Limit= WordLimit.words
+        randomWord(Limit).then((d: string) => {
             setCorrectWord(d);
             setColors(Array(d.length).fill('text-text-color'));
             setI(0);
         });
-    }, []);
+    }, [WordLimit.words]);
     const handleChange = () => {
         if(!TestCtrl.hasStarted) {
             TestCtrl.onStart();
@@ -139,6 +142,7 @@ const Typer = () => {
                         caret-yellow-300
             " />
             </div>
+            {WordLimit.words}
             {TestCtrl.hasStarted && <p>Hello</p>}
         </>
     )

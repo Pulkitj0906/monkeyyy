@@ -1,7 +1,6 @@
-export const randomWord = async (): Promise<string> => {
+export const randomWord = async (wordLimit:number): Promise<string> => {
     try {
-        const sentenceLength = 20;
-        const newSentence = Array.from({ length: sentenceLength }, () => words[Math.floor(Math.random() * words.length)])
+        const newSentence = Array.from({ length: wordLimit }, () => words[Math.floor(Math.random() * words.length)])
             .join(' ') + " ";
 
         return newSentence;

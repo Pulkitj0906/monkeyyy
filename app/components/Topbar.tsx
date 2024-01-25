@@ -47,7 +47,7 @@ const Topbar = () => {
     return (
         <div className="flex justify-between w-full p-1 pt-6">
             <div className="flex w-2/3 ">
-                <SiMonkeytype size={40} className="text-yellow-400 mx-2 mr-4" />
+                <SiMonkeytype size={40} className="text-this-yellow mx-2 mr-4" />
                 <div className="gap-0 relative h-8 w-48 md:block hidden ">
                     <p className=" text-text-color group-hover:text-this-white text-[0.45rem] md:block hidden">
                     monkey see <br/><span className="text-3xl text-this-white absolute top-0 font-[500] ">monkeytype</span>

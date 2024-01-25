@@ -6,7 +6,7 @@ interface TimerProps {
 }
 
 const TimeLimit = create<TimerProps>((set) => ({
-    seconds: 30,
+    seconds: 15,
     setSeconds: (time) => set({
         seconds: time
     })

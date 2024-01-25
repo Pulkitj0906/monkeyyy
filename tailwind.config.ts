@@ -18,7 +18,9 @@ const config: Config = {
         'text-color': '#646669',
         'this-white': '#d1d0c5',
         'error': '#ca4754',
-        'sub-alt':'#2c2e31',
+        'sub-alt': '#2c2e31',
+        'this-yellow': '#e2b714',
+        'background-color':'#323437',
       }
     },
   },

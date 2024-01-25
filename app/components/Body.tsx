@@ -15,11 +15,25 @@ const Body = () => {
   const TestCtrl = Test();
   const showResult = ResultPage()
 
+  if (showResult.isShow === true) {
+    return(
+      <div className="h-full w-full  flex flex-col">
+        <div className="grow flex ">
+          <div className="">
+
+          </div>
+          <div className="bg-black"></div>
+        </div>
+        <Subfooter/>
+      </div>
+    )
+  }
+
   return (
     <div className="h-full w-full flex flex-col">
-      <div className=" h-full w-full flex flex-col ">
+      <div className=" h-full w-full flex flex-col">
       <Timer />
-      {showResult.isShow ? <Result/> : <Typer />}
+      <Typer />
       </div>
       {!TestCtrl.hasStarted && <Subfooter />}
     </div>

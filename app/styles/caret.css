@@ -1,17 +1,16 @@
-.blink-caret {
-    animation: blink-caret 0.5s step-end infinite;
-}
-
-@keyframes blink-caret {
-
-    from{
-        opacity: 1;
-    }
-    to {
-        opacity: 1;
+@keyframes caretFlashSmooth {
+    0%,100% {
+        opacity: 0
     }
 
     50% {
-        opacity: 0;
+        opacity: 1
     }
+}
+.custom-caret-color::selection {
+    background: transparent;
+}
+
+.custom-caret-color::caret {
+    animation: caretFlashSmooth 3s infinite;
 }

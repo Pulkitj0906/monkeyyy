@@ -1,35 +1,23 @@
-import { Bs0Square, BsBellFill, BsChatDots, BsHouseFill } from "react-icons/bs";
-import { BsDot } from "react-icons/bs";
 import {
   FaAt,
-  FaBell,
-  FaBookmark,
   FaClock,
-  FaCrown,
   FaFont,
   FaHashtag,
-  FaInfo,
-  FaKeyboard,
   FaMountain,
   FaQuoteLeft,
-  FaRegKeyboard,
-  FaRegUser,
   FaTools,
-  FaUser,
   FaWrench,
 } from "react-icons/fa";
-import { IoMdSettings } from "react-icons/io";
-import { SiMonkeytype } from "react-icons/si";
-import ControlBarItem from "./Item";
-import { FaA } from "react-icons/fa6";
-import { AiFillTool } from "react-icons/ai";
-import { FiTool } from "react-icons/fi";
 import Item from "./Item";
 import Test from "../hooks/useTest";
 import TimeLimit from "../hooks/useTimer";
+import useMode from "../hooks/useMode";
+import useWordLimit from "../hooks/useWordsLimit";
 
 const Controlbar = () => {
-  const {seconds, setSeconds} = TimeLimit();
+  const { seconds, setSeconds } = TimeLimit();
+  const { mode, setmode } = useMode();
+  const {words,setWords}=useWordLimit()
   const items1 = [
     {
       label: "punctuation",
@@ -48,71 +36,110 @@ const Controlbar = () => {
   const items2 = [
     {
       label: "time",
-      href: "/",
+      highlight: mode === "time",
+      onclick: () => setmode("time"),
       icon: FaClock,
       size: 12,
     },
     {
       label: "words",
-      href: "/notifications",
+      highlight: mode === "words",
+      onclick: () => setmode("words"),
       icon: FaFont,
       auth: true,
       size: 12,
     },
     {
       label: "quote",
-      href: "/bookmarks",
+      highlight: mode === "quote",
+      onclick: () => setmode("quote"),
       icon: FaQuoteLeft,
       auth: true,
       size: 12,
     },
     {
       label: "zen",
+      highlight: mode === "zen",
+      onclick: () => setmode("zen"),
       icon: FaMountain,
-      href: "/profile",
       auth: true,
       size: 14,
     },
     {
       label: "custom",
+      highlight: mode === "custom",
+      onclick: () => setmode("custom"),
       icon: FaWrench,
-      href: "/profile",
       auth: true,
       size: 14,
     },
   ];
-  const items3 = [
+  const items3_time = [
     {
       label: "15",
-      href: "/",
+      onclick: () => setSeconds(15),
+      highlight: seconds === 15,
       size: 12,
     },
     {
       label: "30",
-      href: "/notifications",
+      onclick: () => setSeconds(30),
+      highlight: seconds === 30,
       auth: true,
       size: 12,
     },
     {
       label: "60",
-      href: "/bookmarks",
+      onclick: () => setSeconds(60),
+      highlight: seconds === 60,
       auth: true,
       size: 20,
     },
     {
       label: "120",
-      onclick: () => (
-        setSeconds(120),
-
-        console.log(seconds)
-      ),
-      href: "/profile",
+      onclick: () => setSeconds(120),
+      highlight: seconds === 120,
       auth: true,
       size: 20,
     },
     {
       icon: FaTools,
-      href: "/profile",
+      href: "",
+      auth: true,
+      size: 13,
+    },
+  ];
+  const items3_words = [
+    {
+      label: "10",
+      onclick: () => setWords(10),
+      highlight: words === 10,
+      size: 12,
+    },
+    {
+      label: "25",
+      onclick: () => setWords(25),
+      highlight: words === 25,
+      auth: true,
+      size: 12,
+    },
+    {
+      label: "50",
+      onclick: () => setWords(50),
+      highlight: words === 50,
+      auth: true,
+      size: 20,
+    },
+    {
+      label: "100",
+      onclick: () => setWords(100),
+      highlight: words === 100,
+      auth: true,
+      size: 20,
+    },
+    {
+      icon: FaTools,
+      href: "",
       auth: true,
       size: 13,
     },
@@ -122,14 +149,12 @@ const Controlbar = () => {
     <>
       {/* <div className=""> */}
       <div
-        className={`flex ${
-          TestCtrl.hasStarted && `opacity-0`
-        } justify-between md:w-4/5 lg:w-3/5 mt-5 flex-col p-2 md:flex-row w-11/12 bg-sub-alt rounded-lg`}
+        className={`flex justify-between md:w-4/5 lg:w-3/5 mt-5 flex-col p-2 md:flex-row w-11/12 bg-sub-alt rounded-lg`}
       >
         <div className="flex flex-row items-center justify-center">
-          {items1.map((item) => (
+          {items1.map((item,idx) => (
             <Item
-              key={item.href}
+              key={idx}
               href={item.href}
               label={item.label}
               icon={item.icon}
@@ -140,32 +165,52 @@ const Controlbar = () => {
         </div>
         <div className="h-6 w-1 self-center bg-text-color/20 rounded-lg md:block hidden"></div>
         <div className="flex flex-row items-center justify-center">
-          {items2.map((item) => (
+          {items2.map((item,idx) => (
             <Item
-              key={item.href}
-              href={item.href}
-              label={item.label}
-              icon={item.icon}
-              auth={item.auth}
-              size={item.size}
-            />
-          ))}
-        </div>
-        <div className="h-6 w-1 self-center bg-text-color/20 rounded-lg md:block hidden"></div>
-        <div className="flex flex-row items-center justify-center">
-          {items3.map((item) => (
-            <Item
-              key={item.href}
-              href={item.href}
-              label={item.label}
-              icon={item.icon}
-              auth={item.auth}
-              size={item.size}
+              key={idx}
               onClick={item.onclick}
+              label={item.label}
+              icon={item.icon}
+              auth={item.auth}
+              size={item.size}
+              highlight={item.highlight}
             />
           ))}
         </div>
-        </div>
+        <div className="h-6 w-1 self-center bg-text-color/20 rounded-lg md:block hidden"></div>
+        {mode === "time" && (
+          <div className="flex flex-row items-center justify-center">
+            {items3_time.map((item,idx) => (
+              <Item
+                key={idx}
+                href={item.href}
+                label={item.label}
+                icon={item.icon}
+                auth={item.auth}
+                size={item.size}
+                onClick={item.onclick}
+                highlight={item.highlight}
+              />
+            ))}
+          </div>
+        )}
+        {mode === "words" && (
+          <div className="flex flex-row items-center justify-center">
+            {items3_words.map((item,idx) => (
+              <Item
+                key={idx}
+                href={item.href}
+                label={item.label}
+                icon={item.icon}
+                auth={item.auth}
+                size={item.size}
+                onClick={item.onclick}
+                highlight={item.highlight}
+              />
+            ))}
+          </div>
+        )}
+      </div>
       {/* </div> */}
     </>
   );
