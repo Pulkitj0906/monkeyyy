@@ -1,7 +1,5 @@
 import { IconType } from "react-icons";
 import { useCallback } from "react";
-import { userAgent } from "next/server";
-import { useRouter } from "next/router";
 import { on } from "stream";
 import { BsDot } from "react-icons/bs";
 

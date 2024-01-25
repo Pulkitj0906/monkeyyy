@@ -1,17 +1,17 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import { randomWord } from './useWords';
+import { randomWord } from './components/useWords';
 import '@/app/styles/caret.css'
 import { count } from 'console';
-import Test from '../hooks/useTest';
-import useWordLimit from '../hooks/useWordsLimit';
-
+import Test from './hooks/useTest';
+import useWordLimit from './hooks/useWordsLimit';
 
 const Typer = () => {
     const TestCtrl = Test();
     const regex = new RegExp('[a-zA-Z\\b]')
     let [input, setInput] = useState('');
     let [correctWord, setCorrectWord] = useState<string>('');
+    
     const [colors, setColors] = useState(Array(correctWord.length).fill('text-text-color'));
     let [i, setI] = useState(0);
     let [wrongWordLimit, setWrongWordLimit] = useState(0);
@@ -72,6 +72,10 @@ const Typer = () => {
     // };
     const handleChange3 = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         let keyPressed = e.key;
+
+        if(e.keyCode === 9) {
+            location.reload();
+        }
         
         if((!allowedInput.includes(e.keyCode) && e.keyCode < 65) || e.keyCode > 90) {
             return;
@@ -142,8 +146,6 @@ const Typer = () => {
                         caret-yellow-300
             " />
             </div>
-            {WordLimit.words}
-            {TestCtrl.hasStarted && <p>Hello</p>}
         </>
     )
 };
