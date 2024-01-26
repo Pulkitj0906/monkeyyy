@@ -5,26 +5,44 @@ import '@/app/styles/caret.css'
 import { count } from 'console';
 import Test from './hooks/useTest';
 import useWordLimit from './hooks/useWordsLimit';
+import TypingSpeed from './hooks/useWpm';
+import useLangModal from './hooks/useLanguageModal';
 
 const Typer = () => {
     const TestCtrl = Test();
-    const regex = new RegExp('[a-zA-Z\\b]')
-    let [input, setInput] = useState('');
-    let [correctWord, setCorrectWord] = useState<string>('');
+    const Wpm=TypingSpeed()
+    const WordLimit = useWordLimit()
+    const LangModal=useLangModal()
     
+    const regex = new RegExp('[a-zA-Z\\b]')
+    let [correctWord, setCorrectWord] = useState<string>('');
+    let [input, setInput] = useState('');
     const [colors, setColors] = useState(Array(correctWord.length).fill('text-text-color'));
     let [i, setI] = useState(0);
     let [wrongWordLimit, setWrongWordLimit] = useState(0);
     const allowedInput = [8, 32]
-    const WordLimit=useWordLimit()
+    let [words, setWords] = useState(0)
+    let correct = 0
+    let incorrect=0
+    
     useEffect(() => {
-        const Limit= WordLimit.words
-        randomWord(Limit).then((d: string) => {
+        if (correctWord[i] === ' ') {
+            setWords(words+1)
+        }
+        Wpm.SetNoOfWords(words)
+        correct = colors.filter(color => color === 'text-this-white').length;
+        incorrect = colors.filter(color => color === 'text-error').length;
+        Wpm.setAccuracy((correct/i)*100)
+    },[i])
+    useEffect(() => {
+        const Limit = WordLimit.words;
+        const lang = LangModal.lang;
+        randomWord(Limit,lang).then((d: string) => {
             setCorrectWord(d);
             setColors(Array(d.length).fill('text-text-color'));
             setI(0);
         });
-    }, [WordLimit.words]);
+    }, [WordLimit.words,LangModal.lang]);
     const handleChange = () => {
         if(!TestCtrl.hasStarted) {
             TestCtrl.onStart();
@@ -119,7 +137,7 @@ const Typer = () => {
     return (
         <>
             <div className="relative">
-                <div className=" text-2xl">
+                <div className=" text-2xl h-24 overflow-hidden">
                     {correctWord.split('').map((letter, index) => (
                         <div key={index} className={`inline z-10 ${colors[index]}`}>
                             {letter}

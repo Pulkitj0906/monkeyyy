@@ -6,7 +6,7 @@ interface WordLimitProps {
 }
 
 const useWordLimit = create<WordLimitProps>((set) => ({
-    words: 10,
+    words: 50,
     setWords: (newWordLimit) => set({
         words: newWordLimit
     })

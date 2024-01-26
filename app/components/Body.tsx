@@ -9,10 +9,14 @@ import Timer from "./Timer";
 import ResultPage from "../hooks/useShowResult";
 import Result from "./Result";
 import ResultElements from "./ResultElements";
+import TypingSpeed from "../hooks/useWpm";
+import TimeLimit from "../hooks/useTimer";
 
 const Body = () => {
   const TestCtrl = Test();
   const showResult = ResultPage();
+  const Wpm = TypingSpeed()
+  const Time=TimeLimit()
 
   if (showResult.isShow === true) {
     return (
@@ -20,20 +24,19 @@ const Body = () => {
         <div className="grow flex flex-col items-center">
           <div className="flex  mt-20">
             <div className="flex flex-col gap-2">
-              <ResultElements title="wpm" label="29" />
-              <ResultElements title="acc" label="29%" />
+              <ResultElements title="wpm" label={((Wpm.NoOfWords)/(Time.seconds)*60).toString()} />
+              <ResultElements title="acc" label={((Wpm.accuracy).toFixed(0))+'%'} />
             </div>
             <div className="">
               <img src="/screenshot.png" alt="" />
             </div>
           </div>
           <div className="flex w-full justify-between flex-wrap gap-5">
-            <ResultElements title="testype" label="time hindi 15" small />
-            <ResultElements title="other" label="invalid(accuracy)" small />
-            <ResultElements title="raw" label="59" small />
+            <ResultElements title="test type" label={<><span>time 15</span><br />hindi</>} small medium />
+            <ResultElements title="raw" label={((Wpm.NoOfChars)/(Time.seconds)*60).toString()} small />
             <ResultElements title="characters" label="0/12/34/12" small />
             <ResultElements title="consistency" label="40%" small />
-            <ResultElements title="tiems" label="15sec" small />
+            <ResultElements title="time" label={(Time.seconds).toString()} small />
           </div>
           <div className="flex mt-4 text-text-color">
             <a href="/">

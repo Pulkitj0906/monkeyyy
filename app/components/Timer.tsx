@@ -4,6 +4,7 @@ import Test from "../hooks/useTest";
 import TimeLimit from "../hooks/useTimer";
 import useLangModal from "../hooks/useLanguageModal";
 import ResultPage from "../hooks/useShowResult";
+import TypingSpeed from "../hooks/useWpm";
 
 const Timer = () => {
     const TestCtrl = Test();
@@ -11,6 +12,7 @@ const Timer = () => {
     const { seconds } = TimeLimit();
     const [time, setTime] = useState(seconds);
     const resultpage = ResultPage();
+    const Wpm = TypingSpeed();
 
     useEffect(() => {
         setTime(seconds);
@@ -46,8 +48,9 @@ const Timer = () => {
     }
 
     return (
-        <div className="mt-40 mb-2 items-center flex group h-4 text-yellow-400 text-2xl font-medium">
+        <div className="mt-40 mb-2 items-center gap-10 flex group h-4 text-yellow-400 text-2xl font-medium">
             <div>{time}</div>
+            <div className="">{(Wpm.accuracy).toFixed(0)}%</div>
         </div>
     );
 };
