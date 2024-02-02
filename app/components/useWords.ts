@@ -1,4 +1,3 @@
-
 export const randomWord = async (wordLimit: number,lang:string): Promise<string> => {
     let words: string[] = [];
     
@@ -14,7 +13,7 @@ export const randomWord = async (wordLimit: number,lang:string): Promise<string>
       Array.from(
         { length: wordLimit },
         () => words[Math.floor(Math.random() * words.length)]
-      ).join(" ") + " ";
+      ).join(" ") ;
 
     return newSentence;
   } catch (e) {

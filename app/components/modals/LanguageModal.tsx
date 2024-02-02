@@ -1,4 +1,4 @@
-import useLangModal from "@/app/hooks/useLanguageModal";
+import useLangModal from "@/app/hooks/useLangModal";
 import React, { useState } from "react";
 import { FaCheck, FaSearch } from "react-icons/fa";
 

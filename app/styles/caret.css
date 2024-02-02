@@ -7,10 +7,10 @@
         opacity: 1
     }
 }
-.custom-caret-color::selection {
-    background: transparent;
+.custom-caret-color {
+    background: #e2b714;
 }
 
-.custom-caret-color::caret {
-    animation: caretFlashSmooth 3s infinite;
+.custom-caret-color {
+    animation: caretFlashSmooth 1s infinite;
 }

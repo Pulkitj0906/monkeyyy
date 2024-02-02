@@ -10,7 +10,7 @@ import ResultPage from "./hooks/useShowResult";
 
 export default function Home() {
   const TestCtrl = Test();
-  const Result= ResultPage()
+  const Result = ResultPage();
   return (
     <>
       <div className="flex justify-center items-center">
@@ -28,9 +28,11 @@ export default function Home() {
         "
         >
           <Topbar />
-          {!Result.isShow && <div className="w-full flex items-center justify-center h-20">
-            {!TestCtrl.hasStarted && <ControlBar />}
-          </div>}
+          {!Result.isShow && (
+            <div className="w-full flex items-center justify-center h-20">
+              {!TestCtrl.hasStarted && <ControlBar />}
+            </div>
+          )}
           <div className="flex-grow w-full">
             <Body />
           </div>

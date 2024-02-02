@@ -13,8 +13,8 @@ const ResultElements: React.FC<ResultElementsProps> = ({
 }) => {
   return (
     <div className="flex flex-col text-text-color justify-center ">
-      <p className={`${small ? "text-md" : "text-3xl"} m-0`}>{title}</p>
-      <p className={`${small ? medium? "text-lg" : "text-4xl":'text-7xl'} text-this-yellow m-0`}>
+      <p className={`${small ? "text-md" : "text-2xl"} m-0`}>{title}</p>
+      <p className={`${small ? medium? "text-lg" : "text-4xl":'text-6xl'} text-this-yellow m-0`}>
         {label}
       </p>
     </div>

@@ -5,6 +5,7 @@ import {
   FaHashtag,
   FaMountain,
   FaQuoteLeft,
+  FaSearch,
   FaTools,
   FaWrench,
 } from "react-icons/fa";
@@ -13,11 +14,13 @@ import Test from "../hooks/useTest";
 import TimeLimit from "../hooks/useTimer";
 import useMode from "../hooks/useMode";
 import useWordLimit from "../hooks/useWordsLimit";
+import useQuoteGroup from "../hooks/useQuoteGroup";
 
 const Controlbar = () => {
   const { seconds, setSeconds } = TimeLimit();
   const { mode, setmode } = useMode();
-  const {words,setWords}=useWordLimit()
+  const { words, setWords } = useWordLimit()
+  const { size, setSize } = useQuoteGroup()
   const items1 = [
     {
       label: "punctuation",
@@ -144,28 +147,75 @@ const Controlbar = () => {
       size: 13,
     },
   ];
+  const items3_quote = [
+    {
+      label: "all",
+      onclick: () => setSize('all'),
+      highlight: size === 'all',
+      size: 12,
+    },
+    {
+      label: "short",
+      onclick: () => setSize('short'),
+      highlight: size === 'short',
+      auth: true,
+      size: 12,
+    },
+    {
+      label: "medium",
+      onclick: () => setSize("medium"),
+      highlight: size === 'medium',
+      auth: true,
+      size: 20,
+    },
+    {
+      label: "long",
+      onclick: () => setSize('long'),
+      highlight: size === 'long',
+      auth: true,
+      size: 20,
+    },
+    {
+      label: "thicc",
+      onclick: () => setSize('thicc'),
+      highlight: size === 'thicc',
+      auth: true,
+      size: 20,
+    },
+    {
+      icon: FaSearch,
+      href: "",
+      auth: true,
+      size: 13,
+    },
+
+  ]
   const TestCtrl = Test();
   return (
     <>
       {/* <div className=""> */}
       <div
-        className={`flex justify-between md:w-4/5 lg:w-3/5 mt-5 flex-col p-2 md:flex-row w-11/12 bg-sub-alt rounded-lg`}
+        className={`flex justify-between mt-5 flex-col p-2 md:flex-row bg-sub-alt rounded-lg`}
       >
+        {(mode !== 'quote' && mode !== 'zen') &&
+          <>
+            <div className="flex flex-row items-center justify-center">
+              {items1.map((item, idx) => (
+                <Item
+                  key={idx}
+                  href={item.href}
+                  label={item.label}
+                  icon={item.icon}
+                  auth={item.auth}
+                  size={item.size}
+                />
+              ))}
+            </div>
+            <div className="h-6 mx-1 w-1 self-center bg-text-color/20 rounded-lg md:block hidden"></div>
+          </>
+        }
         <div className="flex flex-row items-center justify-center">
-          {items1.map((item,idx) => (
-            <Item
-              key={idx}
-              href={item.href}
-              label={item.label}
-              icon={item.icon}
-              auth={item.auth}
-              size={item.size}
-            />
-          ))}
-        </div>
-        <div className="h-6 w-1 self-center bg-text-color/20 rounded-lg md:block hidden"></div>
-        <div className="flex flex-row items-center justify-center">
-          {items2.map((item,idx) => (
+          {items2.map((item, idx) => (
             <Item
               key={idx}
               onClick={item.onclick}
@@ -177,38 +227,64 @@ const Controlbar = () => {
             />
           ))}
         </div>
-        <div className="h-6 w-1 self-center bg-text-color/20 rounded-lg md:block hidden"></div>
+
         {mode === "time" && (
-          <div className="flex flex-row items-center justify-center">
-            {items3_time.map((item,idx) => (
-              <Item
-                key={idx}
-                href={item.href}
-                label={item.label}
-                icon={item.icon}
-                auth={item.auth}
-                size={item.size}
-                onClick={item.onclick}
-                highlight={item.highlight}
-              />
-            ))}
-          </div>
+          <>
+            <div className="h-6 w-1 mx-1 self-center bg-text-color/20 rounded-lg md:block hidden"></div>
+            <div className="flex flex-row items-center justify-center">
+              {items3_time.map((item, idx) => (
+                <Item
+                  key={idx}
+                  href={item.href}
+                  label={item.label}
+                  icon={item.icon}
+                  auth={item.auth}
+                  size={item.size}
+                  onClick={item.onclick}
+                  highlight={item.highlight}
+                />
+              ))}
+            </div>
+          </>
         )}
         {mode === "words" && (
-          <div className="flex flex-row items-center justify-center">
-            {items3_words.map((item,idx) => (
-              <Item
-                key={idx}
-                href={item.href}
-                label={item.label}
-                icon={item.icon}
-                auth={item.auth}
-                size={item.size}
-                onClick={item.onclick}
-                highlight={item.highlight}
-              />
-            ))}
-          </div>
+          <>
+            <div className="h-6 w-1 mx-1 self-center bg-text-color/20 rounded-lg md:block hidden"></div>
+            <div className="flex flex-row items-center justify-center">
+              {items3_words.map((item, idx) => (
+                <Item
+                  key={idx}
+                  href={item.href}
+                  label={item.label}
+                  icon={item.icon}
+                  auth={item.auth}
+                  size={item.size}
+                  onClick={item.onclick}
+                  highlight={item.highlight}
+                />
+              ))}
+            </div>
+          </>
+
+        )}
+        {mode === "quote" && (
+          <>
+            <div className="h-6 w-1 mx-1 self-center bg-text-color/20 rounded-lg md:block hidden"></div>
+            <div className="flex flex-row items-center justify-center">
+              {items3_quote.map((item, idx) => (
+                <Item
+                  key={idx}
+                  href={item.href}
+                  label={item.label}
+                  icon={item.icon}
+                  auth={item.auth}
+                  size={item.size}
+                  onClick={item.onclick}
+                  highlight={item.highlight}
+                />
+              ))}
+            </div>
+          </>
         )}
       </div>
       {/* </div> */}

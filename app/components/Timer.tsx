@@ -2,26 +2,31 @@ import React, { useEffect, useState } from "react";
 import { FaGlobeAmericas } from "react-icons/fa";
 import Test from "../hooks/useTest";
 import TimeLimit from "../hooks/useTimer";
-import useLangModal from "../hooks/useLanguageModal";
+import useLangModal from "../hooks/useLangModal";
 import ResultPage from "../hooks/useShowResult";
 import TypingSpeed from "../hooks/useWpm";
+import useMode from "../hooks/useMode";
+import useWordLimit from "../hooks/useWordsLimit";
 
 const Timer = () => {
     const TestCtrl = Test();
     const LangModal = useLangModal();
+    const {mode} = useMode();
     const { seconds } = TimeLimit();
     const [time, setTime] = useState(seconds);
     const resultpage = ResultPage();
     const Wpm = TypingSpeed();
+    const WordLimit = useWordLimit();
 
     useEffect(() => {
-        setTime(seconds);
+        if(mode === 'time')
+            setTime(seconds);
     }, [seconds]);
 
     useEffect(() => {
         let intervalId: string | number | NodeJS.Timeout | undefined;
 
-        if (TestCtrl.hasStarted && time > 0) {
+        if (TestCtrl.hasStarted && time > 0 && mode === 'time') {
             intervalId = setInterval(() => {
                 setTime(prevTime => prevTime - 1); 
             }, 1000);
@@ -48,8 +53,8 @@ const Timer = () => {
     }
 
     return (
-        <div className="mt-40 mb-2 items-center gap-10 flex group h-4 text-yellow-400 text-2xl font-medium">
-            <div>{time}</div>
+        <div className="mt-40 mb-2 items-center gap-6 flex group h-4 text-yellow-400 text-2xl font-light">
+            { mode === 'time' ? <div>{time}</div> : <div>{Wpm.NoOfWords}/{WordLimit.words}</div> }
             <div className="">{(Wpm.accuracy).toFixed(0)}%</div>
         </div>
     );

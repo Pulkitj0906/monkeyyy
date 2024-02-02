@@ -7,7 +7,7 @@ import { FaXTwitter } from "react-icons/fa6";
 const Bottombar = () => {
   const items = [
     {
-      href: '/',
+      href: 'mailto: pulkitjain69@gmail.com',
       label: 'Contact',
       icon: FaEnvelope,
       size: 12
@@ -20,7 +20,7 @@ const Bottombar = () => {
       size: 12
     },
     {
-      href: '/bookmarks',
+      href: 'https://github.com/Pulkitj0906/monkeyyy',
       label: 'Github',
       icon: FaCode,
       auth: true,
@@ -34,7 +34,7 @@ const Bottombar = () => {
       size: 12
     },
     {
-      href: '/notifications',
+      href: 'https://twitterc-nu.vercel.app/',
       label: 'Twitter',
       icon: FaXTwitter,
       auth: true,

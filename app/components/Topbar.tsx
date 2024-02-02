@@ -19,13 +19,13 @@ const Topbar = () => {
             size: 20
         },
         {
-            href: '/bookmarks',
+            href: '/about',
             icon: FaInfo,
             auth: true,
             size: 17
         },
         {
-            href: '/adsf',
+            href: '/settings',
             icon: IoMdSettings,
             auth: true,
             size: 18
