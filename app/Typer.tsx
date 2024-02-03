@@ -11,6 +11,8 @@ import useMode from "./hooks/useMode";
 import { randomQoute } from "./components/words/useQuotes";
 import useQuoteGroup from "./hooks/useQuoteGroup";
 import ResultPage from "./hooks/useShowResult";
+import { FaBookAtlas } from "react-icons/fa6";
+import useLoading from "./hooks/useLoading";
 
 const Typer = () => {
   const TestCtrl = Test();
@@ -21,6 +23,7 @@ const Typer = () => {
   const showResult = ResultPage();
   const Mode = useMode();
   const { size, setSize } = useQuoteGroup();
+  const Loading=useLoading()
 
   let [correctWord, setCorrectWord] = useState<string>("");
   let [input, setInput] = useState("");
@@ -68,6 +71,7 @@ const Typer = () => {
     setPrevTime(Date.now() - 303);
   }, [TestCtrl.hasStarted]);
 
+  let [AlreadyCounted,SetAlreadyCounted]=useState(false)
   useEffect(() => {
     if (correctWord.length !== 0 && i === correctWord.length) {
       TestCtrl.onClose();
@@ -104,18 +108,21 @@ const Typer = () => {
   useEffect(() => {
     const Limit = WordLimit.words;
     const lang = LangModal.lang;
+    Loading.setisLoading(true)
     if (Mode.mode === "quote")
       randomQoute(Limit, lang, size).then((d: string) => {
         setCorrectWord(d);
         WordLimit.setWords(d.split(" ").length);
         setColors(Array(d.length).fill("text-text-color"));
         setI(0);
+        Loading.setisLoading(false)
       });
     else
       randomWord(Limit, lang).then((d: string) => {
         setCorrectWord(d);
         setColors(Array(d.length).fill("text-text-color"));
         setI(0);
+        Loading.setisLoading(false)
       });
   }, [WordLimit.words, LangModal.lang, Mode.mode, size]);
 
@@ -202,19 +209,74 @@ const Typer = () => {
     }
   };
 
+  //cursor logic
+  const caretRef = useRef<HTMLDivElement>(null);
+  const divRef = useRef<HTMLDivElement>(null);
+  const spanRefs = useRef<Array<HTMLSpanElement | null>>([]);
+
+  useEffect(() => {
+    if (caretRef.current && spanRefs.current) {
+      let spanLeftPosition = spanRefs.current[i]?.offsetLeft;
+      let spanTopPosition = spanRefs.current[i]?.offsetTop;
+      if (spanLeftPosition && spanTopPosition) {
+        caretRef.current.style.left = `${spanLeftPosition}px`;
+        if (spanTopPosition <= 34) {
+          caretRef.current.style.top = `${spanTopPosition}px`;
+        }
+        if (
+          spanLeftPosition==13 &&
+          parseInt(caretRef.current.style.top.slice(0, 2)) !== spanTopPosition
+        ) {
+          divRef.current?.scrollBy(0, 32);
+        }
+      }
+    }
+  }, [i]);
+  //cursor logic
+if (Loading.isLoading) {
+    return (
+      <div className=" h-full relative">
+            <div className="blur-sm opacity-35">
+                <div className="text-2xl text-text-color">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga dolore
+          temporibus, est, odio quo voluptatibus nihil animi ex neque iure
+          corporis libero culpa sapiente obcaecati, at deserunt accusantium
+          delectus? Maxime.
+                </div>
+                </div>
+        <div className=" inset-0 top-10 justify-center animate-pulse flex gap-1 absolute">
+          <div className="text-text-color ">
+            <FaBookAtlas />
+          </div>
+          <p className="text-text-color">
+            Digging up dictionary! <span className="">...</span>
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="relative">
-        <div className=" text-2xl h-24 overflow-y-auto">
+        <div ref={divRef} className=" text-2xl h-24 overflow-y-hidden">
           {correctWord.split("").map((letter, index) => (
             <span
+              ref={(el) => (spanRefs.current[index] = el)}
               key={index}
               className={`inline z-10 w-1 ${colors[index]}`}
             >
               {letter}
             </span>
           ))}
+          <br /><br />
+          <div
+            ref={caretRef}
+            className="h-8 custom-caret-color z-20 absolute w-[2px] rounded-full top-0"
+            style={{
+              transition: 'left 0.1s ease-in-out, top 0.1s ease-out', // Smooth transition for left and top properties
+            }}
+          ></div>
         </div>
         <textarea
           spellCheck="false"
@@ -232,7 +294,7 @@ const Typer = () => {
                         outline-none
                         text-transparent
                         resize-none
-                        caret-this-yellow
+                        opacity-0
             "
         />
       </div>

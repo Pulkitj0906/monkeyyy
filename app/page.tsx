@@ -7,6 +7,8 @@ import ControlBar from "./components/Controlbar";
 import Test from "./hooks/useTest";
 import LanguageModal from "./components/modals/LanguageModal";
 import ResultPage from "./hooks/useShowResult";
+import LeaderBoardModal from "./modals/LeaderBoardModal";
+import NotificationBoardModal from "./modals/NotifcationModal";
 
 export default function Home() {
   const TestCtrl = Test();
@@ -40,6 +42,8 @@ export default function Home() {
         </div>
       </div>
       <LanguageModal />
+      <LeaderBoardModal />
+      <NotificationBoardModal/>
     </>
   );
 }

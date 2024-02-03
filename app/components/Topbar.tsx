@@ -1,11 +1,16 @@
+'use client'
 import { FaBell, FaBookmark, FaCrown, FaInfo, FaKeyboard, FaRegKeyboard, FaRegUser, FaUser } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import { SiMonkeytype } from "react-icons/si";
 import Item from "./Item";
+import useLeaderModal from "../hooks/useLeaderModal";
+import useNotificationModal from "../hooks/useNotificationModal";
 
 
 
 const Topbar = () => {
+    const LeaderModal = useLeaderModal()
+    const NotiModal=useNotificationModal()
     const items = [
         {
             href: '/',
@@ -13,7 +18,7 @@ const Topbar = () => {
             size: 17
         },
         {
-            href: '/notifications',
+            onclick:LeaderModal.OnOpen,
             icon: FaCrown,
             auth: true,
             size: 20
@@ -33,12 +38,12 @@ const Topbar = () => {
     ]
     const items2 = [
         {
-            href: '/',
             icon: FaBell,
+            onclick:NotiModal.OnOpen,
             size: 16
         },
         {
-            href: '/notifications',
+            href: '/user',
             icon: FaRegUser,
             auth: true,
             size: 16
@@ -53,26 +58,28 @@ const Topbar = () => {
                     monkey see <br/><span className="text-3xl text-this-white absolute top-0 font-[500] ">monkeytype</span>
                     </p>
                 </div>
-                {items.map((item) => (
+                {items.map((item,idx) => (
                     <Item
                         topbar={true}
-                        key={item.href}
+                        key={idx}
                         href={item.href}
                         icon={item.icon}
                         auth={item.auth}
                         size={item.size}
+                        onClick={item.onclick}
                     />
                 ))}
             </div>
             <div className=" flex flex-row ">
-                {items2.map((item) => (
+                {items2.map((item,idx) => (
                     <Item
                         topbar={true}
-                        key={item.href}
+                        key={idx}
                         href={item.href}
                         icon={item.icon}
                         auth={item.auth}
                         size={item.size}
+                        onClick={item.onclick}
                     />
                 ))}
             </div>

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { FaCheck, FaSearch } from "react-icons/fa";
 
 const LanguageModal = () => {
-  const LangList = ["hinglish", "english", "spanish"];
+  const LangList = ["hinglish", "english"];
   const [filterTxt, setFilterTxt] = useState("");
 
   const filterList = LangList.filter((lang) => lang.includes(filterTxt));

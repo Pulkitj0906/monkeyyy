@@ -1,6 +1,7 @@
 import Bottombar from "../components/Bottombar";
 import Topbar from "../components/Topbar";
 import Subfooter from "../components/subfooter";
+import LeaderBoardModal from "../modals/LeaderBoardModal";
 
 const page = () => {
   return (
@@ -28,6 +29,7 @@ const page = () => {
           </div>
         </div>
       </div>
+      <LeaderBoardModal/>
     </>
   );
 };
