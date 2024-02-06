@@ -259,7 +259,7 @@ if (Loading.isLoading) {
   return (
     <>
       <div className="relative">
-        <div ref={divRef} className=" text-2xl h-24 overflow-y-hidden">
+        <div ref={divRef} className=" text-2xl h-24 overflow-y-auto">
           {correctWord.split("").map((letter, index) => (
             <span
               ref={(el) => (spanRefs.current[index] = el)}
