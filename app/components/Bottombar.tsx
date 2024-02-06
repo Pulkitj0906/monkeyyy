@@ -1,10 +1,14 @@
+'use client'
+
 import { FaCode, FaCodeBranch, FaCrown, FaDonate, FaEnvelope, FaFileContract, FaInfo, FaKeyboard, FaLock, FaPalette, FaShieldAlt } from "react-icons/fa";
 import { IoMdSettings } from "react-icons/io";
 import Item from "./Item";
 import { IoLogoDiscord } from "react-icons/io5";
 import { FaXTwitter } from "react-icons/fa6";
+import useSupportModal from "../hooks/useSupportModal";
 
 const Bottombar = () => {
+  const SupportModal=useSupportModal()
   const items = [
     {
       href: 'mailto: pulkitjain69@gmail.com',
@@ -13,8 +17,8 @@ const Bottombar = () => {
       size: 12
     },
     {
-      href: '/notifications',
       label: 'Support',
+      onclick: SupportModal.OnOpen,
       icon: FaDonate,
       auth: true,
       size: 12
@@ -27,7 +31,7 @@ const Bottombar = () => {
       size: 12
     },
     {
-      href: '/adsf',
+      href: 'https://discord.gg/RgghWebY8a',
       label: 'Discord',
       icon: IoLogoDiscord,
       auth: true,
@@ -41,21 +45,21 @@ const Bottombar = () => {
       size: 15
     },
     {
-      href: '/bookmarks',
+      href: 'https://monkeytype.com/terms-of-service',
       label: 'Terms',
       icon: FaFileContract,
       auth: true,
       size: 14
     },
     {
-      href: '/adsf',
+      href: 'https://monkeytype.com/security-policy',
       label: 'Security',
       icon: FaShieldAlt,
       auth: true,
       size: 12
     },
     {
-      href: '/adsf',
+      href: 'https://monkeytype.com/privacy-policy',
       label: 'Privacy',
       icon: FaLock,
       auth: true,
@@ -85,6 +89,7 @@ const Bottombar = () => {
            className="w-20">
             <Item
               key={item.href}
+              onClick={item.onclick}
               href={item.href}
               label={item.label}
               icon={item.icon}

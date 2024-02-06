@@ -5,6 +5,7 @@ import { SiMonkeytype } from "react-icons/si";
 import Item from "./Item";
 import useLeaderModal from "../hooks/useLeaderModal";
 import useNotificationModal from "../hooks/useNotificationModal";
+import { GiRaceCar } from "react-icons/gi";
 
 
 
@@ -34,6 +35,12 @@ const Topbar = () => {
             icon: IoMdSettings,
             auth: true,
             size: 18
+        },
+        {
+            href: '/race',
+            icon: GiRaceCar ,
+            auth: true,
+            size: 30
         }
     ]
     const items2 = [
@@ -43,7 +50,7 @@ const Topbar = () => {
             size: 16
         },
         {
-            href: '/user',
+            href: '/login',
             icon: FaRegUser,
             auth: true,
             size: 16

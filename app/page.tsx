@@ -9,6 +9,7 @@ import LanguageModal from "./components/modals/LanguageModal";
 import ResultPage from "./hooks/useShowResult";
 import LeaderBoardModal from "./modals/LeaderBoardModal";
 import NotificationBoardModal from "./modals/NotifcationModal";
+import SupportModal from "./modals/SupportModal";
 
 export default function Home() {
   const TestCtrl = Test();
@@ -43,7 +44,8 @@ export default function Home() {
       </div>
       <LanguageModal />
       <LeaderBoardModal />
-      <NotificationBoardModal/>
+      <NotificationBoardModal />
+      <SupportModal/>
     </>
   );
 }

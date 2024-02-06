@@ -1,10 +1,11 @@
+import Body from "./components/Body";
 import Bottombar from "../components/Bottombar";
 import Topbar from "../components/Topbar";
-import LanguageModal from "../components/modals/LanguageModal";
 import Subfooter from "../components/subfooter";
 import LeaderBoardModal from "../modals/LeaderBoardModal";
-import NotificationBoardModal from "../modals/NotifcationModal";
 import SupportModal from "../modals/SupportModal";
+import LanguageModal from "../components/modals/LanguageModal";
+import NotificationBoardModal from "../modals/NotifcationModal";
 
 const page = () => {
   return (
@@ -25,9 +26,8 @@ const page = () => {
         "
         >
           <Topbar />
-          Settings
+          <Body/>
           <div className="w-full space-y-2">
-            <Subfooter/>
             <Bottombar />
           </div>
         </div>

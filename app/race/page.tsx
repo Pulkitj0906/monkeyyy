@@ -1,3 +1,4 @@
+import Typer from "../Typer";
 import Bottombar from "../components/Bottombar";
 import Topbar from "../components/Topbar";
 import LanguageModal from "../components/modals/LanguageModal";
@@ -5,6 +6,8 @@ import Subfooter from "../components/subfooter";
 import LeaderBoardModal from "../modals/LeaderBoardModal";
 import NotificationBoardModal from "../modals/NotifcationModal";
 import SupportModal from "../modals/SupportModal";
+import Race from "./components/Race";
+import RaceTyper from "./components/RaceTyper";
 
 const page = () => {
   return (
@@ -22,20 +25,19 @@ const page = () => {
         xl:w-4/5
         md:p-6
         md:pt-2
+        overflow-hidden
         "
         >
           <Topbar />
-          Settings
-          <div className="w-full space-y-2">
-            <Subfooter/>
-            <Bottombar />
-          </div>
+          <Race />
+          <RaceTyper />
+          <Bottombar />
         </div>
+        <LanguageModal />
+        <LeaderBoardModal />
+        <NotificationBoardModal />
+        <SupportModal />
       </div>
-      <LanguageModal />
-      <LeaderBoardModal />
-      <NotificationBoardModal />
-      <SupportModal/>
     </>
   );
 };

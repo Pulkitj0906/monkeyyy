@@ -1,6 +1,10 @@
 import Bottombar from "../components/Bottombar";
 import Topbar from "../components/Topbar";
+import LanguageModal from "../components/modals/LanguageModal";
 import Subfooter from "../components/subfooter";
+import LeaderBoardModal from "../modals/LeaderBoardModal";
+import NotificationBoardModal from "../modals/NotifcationModal";
+import SupportModal from "../modals/SupportModal";
 
 const page = () => {
   return (
@@ -30,9 +34,19 @@ const page = () => {
                 text-lg
             "
           >
-            <p>Created with love by <span className="text-this-yellow">Pulkit</span> and <span className="text-this-yellow">Farzad</span></p>
-            <p className="">Inspired from <span> </span> 
-              <a className="underline decoration-this-yellow underline-offset-4" href="https://monkeytype.com/">MonkeyType</a>
+            <p>
+              Created with love by{" "}
+              <span className="text-this-yellow">Pulkit</span> and{" "}
+              <span className="text-this-yellow">Farzad</span>
+            </p>
+            <p className="">
+              Inspired from <span> </span>
+              <a
+                className="underline decoration-this-yellow underline-offset-4"
+                href="https://monkeytype.com/"
+              >
+                MonkeyType
+              </a>
             </p>
             <p>Launched on 1st of Feb, 2024.</p>
           </div>
@@ -41,6 +55,10 @@ const page = () => {
             <Bottombar />
           </div>
         </div>
+        <LanguageModal />
+        <LeaderBoardModal />
+        <NotificationBoardModal />
+        <SupportModal />
       </div>
     </>
   );
