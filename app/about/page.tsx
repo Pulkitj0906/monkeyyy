@@ -1,10 +1,10 @@
-import Bottombar from "../components/Bottombar";
-import Topbar from "../components/Topbar";
-import LanguageModal from "../components/modals/LanguageModal";
-import Subfooter from "../components/subfooter";
-import LeaderBoardModal from "../modals/LeaderBoardModal";
-import NotificationBoardModal from "../modals/NotifcationModal";
-import SupportModal from "../modals/SupportModal";
+import Bottombar from "../_components/Bottombar";
+import Topbar from "../_components/Topbar";
+import LanguageModal from "../_modals/LanguageModal";
+import Subfooter from "../_components/subfooter";
+import LeaderBoardModal from "../_modals/LeaderBoardModal";
+import NotificationBoardModal from "../_modals/NotifcationModal";
+import SupportModal from "../_modals/SupportModal";
 
 const page = () => {
   return (
@@ -48,7 +48,7 @@ const page = () => {
                 MonkeyType
               </a>
             </p>
-            <p>Launched on 1st of Feb, 2024.</p>
+            <p>Launched on 14th of Feb, 2024.</p>
           </div>
           <div className="w-full space-y-2">
             <Subfooter />

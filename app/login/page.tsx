@@ -1,11 +1,11 @@
 import Body from "./components/Body";
-import Bottombar from "../components/Bottombar";
-import Topbar from "../components/Topbar";
-import Subfooter from "../components/subfooter";
-import LeaderBoardModal from "../modals/LeaderBoardModal";
-import SupportModal from "../modals/SupportModal";
-import LanguageModal from "../components/modals/LanguageModal";
-import NotificationBoardModal from "../modals/NotifcationModal";
+import Bottombar from "../_components/Bottombar";
+import Topbar from "../_components/Topbar";
+import Subfooter from "../_components/subfooter";
+import LeaderBoardModal from "../_modals/LeaderBoardModal";
+import SupportModal from "../_modals/SupportModal";
+import LanguageModal from "../_modals/LanguageModal";
+import NotificationBoardModal from "../_modals/NotifcationModal";
 
 const page = () => {
   return (
@@ -25,6 +25,7 @@ const page = () => {
         md:pt-2
         "
         >
+          
           <Topbar />
           <Body/>
           <div className="w-full space-y-2">

@@ -1,15 +1,14 @@
 "use client";
-import Image from "next/image";
-import Topbar from "./components/Topbar";
-import Bottombar from "./components/Bottombar";
-import Body from "./components/Body";
-import ControlBar from "./components/Controlbar";
-import Test from "./hooks/useTest";
-import LanguageModal from "./components/modals/LanguageModal";
-import ResultPage from "./hooks/useShowResult";
-import LeaderBoardModal from "./modals/LeaderBoardModal";
-import NotificationBoardModal from "./modals/NotifcationModal";
-import SupportModal from "./modals/SupportModal";
+import Topbar from "./_components/Topbar";
+import Bottombar from "./_components/Bottombar";
+import Body from "./_components/Body";
+import ControlBar from "./_components/Controlbar";
+import Test from "./_hooks/useTest";
+import LanguageModal from "./_modals/LanguageModal";
+import ResultPage from "./_hooks/useShowResult";
+import LeaderBoardModal from "./_modals/LeaderBoardModal";
+import NotificationBoardModal from "./_modals/NotifcationModal";
+import SupportModal from "./_modals/SupportModal";
 
 export default function Home() {
   const TestCtrl = Test();
@@ -45,7 +44,7 @@ export default function Home() {
       <LanguageModal />
       <LeaderBoardModal />
       <NotificationBoardModal />
-      <SupportModal/>
+      <SupportModal />
     </>
   );
 }
