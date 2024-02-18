@@ -199,6 +199,7 @@ const Typer = () => {
   const caretRef = useRef<HTMLDivElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const spanRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const firstElement = spanRefs.current[1]?.offsetLeft;
 
   useEffect(() => {
     if (caretRef.current && spanRefs.current) {
@@ -210,10 +211,10 @@ const Typer = () => {
           caretRef.current.style.top = `${spanTopPosition}px`;
         }
         if (
-          spanLeftPosition == 13 &&
+          spanLeftPosition == firstElement &&
           parseInt(caretRef.current.style.top.slice(0, 2)) !== spanTopPosition
         ) {
-          divRef.current?.scrollBy(0, 32);
+          divRef.current?.scrollBy({ top: 32, behavior: "smooth" });
         }
       }
     }
@@ -246,7 +247,7 @@ const Typer = () => {
   return (
     <>
       <div className="relative">
-        <div ref={divRef} className=" text-2xl h-24 overflow-y-auto">
+        <div ref={divRef} className=" text-2xl h-24 overflow-y-hidden">
           {correctWord.split("").map((letter, index) => (
             <span
               ref={(el) => (spanRefs.current[index] = el)}
@@ -281,7 +282,8 @@ const Typer = () => {
                         outline-none
                         text-transparent
                         resize-none
-                        opacity-0
+                        opacity-1
+                        overflow-y-hidden
             "
         />
       </div>

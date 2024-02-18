@@ -18,10 +18,12 @@ const Result = () => {
   const Mode = useMode();
   const Lang = useLangModal();
   const wordCount = Wpm.chars.reduce((acc, curr) => acc + curr, 0) / 5;
-  const WpmStat = GraphTypingSpeed()
-  const avgWpm = WpmStat.wpm.reduce((prv, curr) => curr+prv )/WpmStat.wpm.length
-  console.log(WpmStat.wpm)
-  console.log(avgWpm)
+  const WpmStat = GraphTypingSpeed();
+  let avgWpm;
+  WpmStat.wpm
+    ? (avgWpm =
+        WpmStat.wpm.reduce((prv, curr) => curr + prv) / WpmStat.wpm.length)
+    : (avgWpm = 0);
   return (
     <div className="h-full w-full  flex flex-col gap-3">
       <div className="grow flex flex-col items-center ">
@@ -73,7 +75,15 @@ const Result = () => {
             small
           />
           <ResultElements title="consistency" label="-/-" small />
-          <ResultElements title={`${Mode.mode}`} label={Mode.mode === 'time' ? Time.seconds.toString() : WordLimit.words.toString()} small />
+          <ResultElements
+            title={`${Mode.mode}`}
+            label={
+              Mode.mode === "time"
+                ? Time.seconds.toString()
+                : WordLimit.words.toString()
+            }
+            small
+          />
         </div>
         <div className="flex mt-4 text-text-color">
           <a href="/">

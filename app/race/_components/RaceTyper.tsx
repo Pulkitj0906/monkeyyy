@@ -71,7 +71,7 @@ const RaceTyper = () => {
     } else if (keyPressed === " " && correctWord[i] === " ") {
       if (colors.some((c) => c === "text-error")) {
         while (i >= 0) {
-          i--; 
+          i--;
           if (correctWord[i] === " " || i === -1) {
             break;
           }
@@ -96,6 +96,7 @@ const RaceTyper = () => {
   const caretRef = useRef<HTMLDivElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
   const spanRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const firstElement = spanRefs.current[1]?.offsetLeft;
   useEffect(() => {
     if (caretRef.current && spanRefs.current) {
       if (i === correctWord.length) {
@@ -108,16 +109,17 @@ const RaceTyper = () => {
       }
       let spanLeftPosition = spanRefs.current[i]?.offsetLeft;
       let spanTopPosition = spanRefs.current[i]?.offsetTop;
-      if ((spanLeftPosition && spanTopPosition) || spanLeftPosition === 0) {//first char caret pos
+      if ((spanLeftPosition && spanTopPosition) || spanLeftPosition === 0) {
+        //first char caret pos
         caretRef.current.style.left = `${spanLeftPosition}px`;
         if (spanTopPosition && spanTopPosition <= 34) {
           caretRef.current.style.top = `${spanTopPosition}px`;
         }
         if (
-          spanLeftPosition == 13 &&
+          spanLeftPosition === firstElement &&
           parseInt(caretRef.current.style.top.slice(0, 2)) !== spanTopPosition
         ) {
-          divRef.current?.scrollBy(0, 32);
+          divRef.current?.scrollBy({ top: 32, behavior: "smooth" });
         }
       }
     }
@@ -129,7 +131,6 @@ const RaceTyper = () => {
 
   useEffect(() => {
     socket.on("update", (d) => {
-      console.log('update req recieved')
       OppStat.SetNoOfWords(d);
     });
   }, []);
@@ -146,7 +147,7 @@ const RaceTyper = () => {
     let timeTaken = (Date.now() - time) / 1000;
     setCurrWpm(parseInt((tempWordcount * (60 / timeTaken)).toFixed(2)));
     setOppWpm(parseInt((OppStat.NoOfWords * (60 / timeTaken)).toFixed(2)));
-    CurrStat.SetNoOfWords(tempWordcount)
+    CurrStat.SetNoOfWords(tempWordcount);
   }, [tempWordcount, OppStat.NoOfWords]);
 
   return (
@@ -203,7 +204,8 @@ const RaceTyper = () => {
             outline-none
             text-transparent
             resize-none
-            opacity-0
+            opacity-1
+            overflow-y-hidden
           "
         />
       </div>

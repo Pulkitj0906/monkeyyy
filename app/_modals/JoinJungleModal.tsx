@@ -9,24 +9,26 @@ const JoinJunglemodal = () => {
   const [page, setPage] = useState(1);
   const [sec, setSec] = useState(10);
   const [name, setName] = useState("");
-  const [start, setStart] = useState(false)
-  const [err, setErr] = useState(false)
+  const [start, setStart] = useState(false);
+  const [err, setErr] = useState(false);
   const { isOpen, OnOpen, OnClose, SetTime } = useJoinJungleModal();
   const [joinJungleIdInput, setJoinJungleIdInput] = useState("");
   const [createJungleIdInput, setCreateJungleIdInput] = useState("");
-  const {SetUsername} = OppTempWords()
+  const { SetUsername } = OppTempWords();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleConnect = () => {
+    setIsLoading(true);
     if (name) {
       socket.auth = { name };
       socket.connect();
     }
   };
   useEffect(() => {
-    socket.on('connected', () => {
+    socket.on("connected", () => {
       setPage(2);
-    })
-  }, [])
+    });
+  }, []);
   const handleJoin = (id: string) => {
     if (id) {
       socket.emit("joinJungle", id);
@@ -34,8 +36,7 @@ const JoinJunglemodal = () => {
     }
   };
   const raceBegins = () => {
-    console.log("raceBegins fn ran");
-    setStart(true)
+    setStart(true);
     let fnId = setInterval(() => {
       setSec((prevSec) => {
         if (prevSec > 0) {
@@ -53,27 +54,28 @@ const JoinJunglemodal = () => {
 
   useEffect(() => {
     socket.on("start", (data) => {
-      console.log("req recieved");
-      (socket.auth.name === data.monkey1 ? SetUsername(data.monkey2) : SetUsername(data.monkey1))
+      socket.auth.name === data.monkey1
+        ? SetUsername(data.monkey2)
+        : SetUsername(data.monkey1);
       raceBegins();
     });
   }, []);
 
   useEffect(() => {
-    socket.on('connect_error', (err) => {
-      setErr(true)
+    socket.on("connect_error", (err) => {
+      setErr(true);
       setTimeout(() => {
-        setErr(false)
-      }, 6000)
-    })
-  }, [])
+        setErr(false);
+      }, 6000);
+    });
+  }, []);
 
   useEffect(() => {
     socket.on("Noti", (noti: string) => {
       alert(noti);
     });
   }, []);
- 
+
   return (
     <>
       {!isOpen ? null : (
@@ -107,36 +109,50 @@ const JoinJunglemodal = () => {
       "
           >
             <p className="text-this-yellow text-2xl mb-5">Banana Hunt</p>
-            {page === 1 && (
-              <label
-                htmlFor="monkey"
-                className="flex flex-col"
-                onSubmit={() => setPage(2)}
-              >
-                <p className="text-this-white">
-                  what would your monkey be called?
-                </p>
-                <input
-                  autoFocus
-                  required
-                  onKeyDown={(e) => {
-                    e.key === "Enter" && handleConnect();
-                  }}
-                  id="monkey"
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full mt-3 bg-transparent ring-this-white ring-1 rounded-xl caret-this-yellow p-1 py-2"
-                />
-                {err && <p className="text-this-yellow text-xs">User already exists</p>}
-                <button
-                  onClick={handleConnect}
-                  className="mt-3 hover:bg-this-white hover:text-sub-alt self-end bg-sub-alt p-2 rounded-lg"
+            {page === 1 &&
+              (isLoading ? (
+                <>
+                  <h3 className="text-this-white animate-pulse">
+                    Hold on Tight!!{" "}
+                  </h3>
+                  <p className="text-this-yellow">
+                    We're convincing a monkey to race for u!{" "}
+                  </p>
+                </>
+              ) : (
+                <label
+                  htmlFor="monkey"
+                  className="flex flex-col"
+                  onSubmit={() => setPage(2)}
                 >
-                  Next
-                </button>
-              </label>
-            )}
+                  <p className="text-this-white">
+                    what would your monkey be called?
+                  </p>
+                  <input
+                    autoFocus
+                    required
+                    onKeyDown={(e) => {
+                      e.key === "Enter" && handleConnect();
+                    }}
+                    id="monkey"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full mt-3 bg-transparent ring-this-white ring-1 rounded-xl caret-this-yellow p-1 py-2"
+                  />
+                  {err && (
+                    <p className="text-this-yellow text-xs">
+                      User already exists
+                    </p>
+                  )}
+                  <button
+                    onClick={handleConnect}
+                    className="mt-3 hover:bg-this-white hover:text-sub-alt self-end bg-sub-alt p-2 rounded-lg"
+                  >
+                    Next
+                  </button>
+                </label>
+              ))}
             {page === 2 && (
               <>
                 <label htmlFor="jungle" className="flex flex-col">
@@ -188,8 +204,18 @@ const JoinJunglemodal = () => {
               <>
                 <h1 className="text-xl">Your Jungle</h1>
                 <p className="text-text-color animate-pulse">
-                  {!start ? `Waiting for the other monkey to join.` : `All Monkeys connected`}<br/>
-                  {start && <span>Game starts in <span className="animate-ping text-this-white text-xl">{sec/2}</span></span>}
+                  {!start
+                    ? `Waiting for the other monkey to join.`
+                    : `All Monkeys connected`}
+                  <br />
+                  {start && (
+                    <span>
+                      Game starts in{" "}
+                      <span className="animate-ping text-this-white text-xl">
+                        {sec / 2}
+                      </span>
+                    </span>
+                  )}
                   {/* Each player reduces the time by 1 second. So, in reality the timer reduces by 2 seconds in 1 second. */}
                 </p>
               </>
