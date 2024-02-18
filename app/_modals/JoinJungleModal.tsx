@@ -116,7 +116,7 @@ const JoinJunglemodal = () => {
                     Hold on Tight!!{" "}
                   </h3>
                   <p className="text-this-yellow">
-                    We're convincing a monkey to race for u!{" "}
+                    We are convincing a monkey to race for u!{" "}
                   </p>
                 </>
               ) : (
