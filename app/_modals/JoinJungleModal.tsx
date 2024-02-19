@@ -18,8 +18,8 @@ const JoinJunglemodal = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleConnect = () => {
-    setIsLoading(true);
     if (name) {
+      setIsLoading(true);
       socket.auth = { name };
       socket.connect();
     }
@@ -83,7 +83,7 @@ const JoinJunglemodal = () => {
           className="
         absolute
         inset-0
-        bg-black/50
+        bg-black/30
         z-50
         h-full
         w-full

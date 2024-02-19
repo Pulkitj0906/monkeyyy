@@ -26,17 +26,19 @@ const page = () => {
           md:pt-2
           overflow-hidden
           "
-          >
-          <JoinJungleModal/>
+        >
           <Topbar />
-          <Race />
-          <RaceTyper />
+          <div className="relative w-full">
+            <JoinJungleModal />
+            <Race />
+            <RaceTyper />
+          </div>
           <Bottombar />
         </div>
         <LeaderBoardModal />
         <NotificationBoardModal />
         <SupportModal />
-        <FinishModal/>
+        <FinishModal />
       </div>
     </>
   );
