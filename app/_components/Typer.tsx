@@ -271,7 +271,7 @@ const Typer = () => {
           spellCheck="false"
           autoFocus
           onChange={handleChange}
-          onKeyDownCapture={handleChange3}
+          onKeyDown={handleChange3}
           className="
                         absolute
                         top-0

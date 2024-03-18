@@ -28,7 +28,7 @@ const page = () => {
           "
         >
           <Topbar />
-          <div className="relative w-full">
+          <div className="relative w-full h-full my-4 flex flex-col justify-around">
             <JoinJungleModal />
             <Race />
             <RaceTyper />

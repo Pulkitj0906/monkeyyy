@@ -21,7 +21,9 @@ const RaceTyper = () => {
   let OppStat = OppTempWords();
   const CurrStat = TempTypingSpeed();
   const FinishModal = useFinishModal();
-  const { time } = useJoinJungleModal();
+  const JoinJungleModal = useJoinJungleModal();
+
+  const textRef = useRef<HTMLTextAreaElement>(null);
 
   const allowedInput = [
     8, 32, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 186, 188, 190, 191, 219, 221,
@@ -38,7 +40,6 @@ const RaceTyper = () => {
       setI(0);
     });
   }, []);
-  // word generator
 
   const handleChange = () => {};
   //handle input
@@ -90,7 +91,6 @@ const RaceTyper = () => {
       }
     }
   };
-  //handle input
 
   //cursor logic
   const caretRef = useRef<HTMLDivElement>(null);
@@ -130,25 +130,36 @@ const RaceTyper = () => {
   }, [i]);
 
   useEffect(() => {
-    socket.on("update", (d) => {
-      OppStat.SetNoOfWords(d);
-    });
-  }, []);
+    if (textRef.current && JoinJungleModal.isStarted) {
+      textRef.current.focus();
+    }
+  }, [JoinJungleModal.isStarted]);
 
-  useEffect(() => {
-    socket.on("gameEnd", () => {
-      FinishModal.setLoser();
-      FinishModal.OnOpen();
-    });
-  }, []);
-
+  const handleGameEnd = () => {
+    FinishModal.setLoser();
+    FinishModal.OnOpen();
+    JoinJungleModal.SetIsStarted(false);
+  }
+  
   useEffect(() => {
     socket.emit("type", tempWordcount);
-    let timeTaken = (Date.now() - time) / 1000;
+    let timeTaken = (Date.now() - JoinJungleModal.time) / 1000;
     setCurrWpm(parseInt((tempWordcount * (60 / timeTaken)).toFixed(2)));
     setOppWpm(parseInt((OppStat.NoOfWords * (60 / timeTaken)).toFixed(2)));
     CurrStat.SetNoOfWords(tempWordcount);
   }, [tempWordcount, OppStat.NoOfWords]);
+  
+  useEffect(() => {
+    socket.on("userLeft", () => { FinishModal.OnOpen()});
+    socket.on("gameEnd", handleGameEnd);
+    socket.on("update", (d) => { OppStat.SetNoOfWords(d) });
+    
+    return () => {
+      socket.off("userLeft", () => {FinishModal.OnOpen()});
+      socket.off("gameEnd", handleGameEnd);
+      socket.off("update", (d) => { OppStat.SetNoOfWords(d) });
+    }
+  }, [socket, handleGameEnd])
 
   return (
     <>
@@ -191,9 +202,9 @@ const RaceTyper = () => {
         </div>
         <textarea
           spellCheck="false"
-          autoFocus
+          ref={textRef}
           onChange={handleChange}
-          onKeyDownCapture={handleChange3}
+          onKeyDown={handleChange3}
           className="
             absolute
             top-0

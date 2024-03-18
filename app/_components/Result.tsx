@@ -20,7 +20,7 @@ const Result = () => {
   const wordCount = Wpm.chars.reduce((acc, curr) => acc + curr, 0) / 5;
   const WpmStat = GraphTypingSpeed();
   let avgWpm;
-  WpmStat.wpm
+  WpmStat.wpm.length
     ? (avgWpm =
         WpmStat.wpm.reduce((prv, curr) => curr + prv) / WpmStat.wpm.length)
     : (avgWpm = 0);
