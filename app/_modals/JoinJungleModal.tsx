@@ -219,7 +219,7 @@ const JoinJunglemodal = () => {
                   className="flex flex-col my-3 items-start"
                 >
                   <p className="text-this-white">
-                    Don't have an invite,{" "}
+                    {`Don't have an invite, `}
                     <button
                       onClick={() => handleJoin(createJungleIdInput)}
                       disabled={joinJungleIdInput ? true : false}
